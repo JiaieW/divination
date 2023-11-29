@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .line {
+            height: 20px;
+            background-color: black;
+            margin: 5px 0;
+            width:200px;
+        }
+        
+       /* 定义阴爻的样式 */
+       .yin {
+            height: 20px;
+            margin: 5px 0;
+            width: 200px;
+            display: flex; /* 使用弹性布局 */
+            justify-content: space-between; /* 使子元素之间均匀分布 */
+        }
+
+        /* 阴爻中间的白色部分 */
+        .yin-center {
+            height: 20px;
+            background-color: white; /* 中间部分是白色 */
+            width: 40px; /* 宽度可以根据需要调整 */
+        }
+
+        /* 阴爻两边的黑色部分 */
+        .yin-left, .yin-right {
+            height: 20px;
+            background-color: black; /* 两边是黑色 */
+            width: 80px; /* 宽度可以根据需要调整 */
+        }
+    </style>
+</head>
+<body>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+
+     <!-- 阴爻 -->
+     <div class="yin">
+        <div class="yin-left"></div>
+        <div class="yin-center"></div>
+        <div class="yin-right"></div>
+    </div>
+    <div class="yin">
+        <div class="yin-left"></div>
+        <div class="yin-center"></div>
+        <div class="yin-right"></div>
+    </div>
+    <div class="yin">
+        <div class="yin-left"></div>
+        <div class="yin-center"></div>
+        <div class="yin-right"></div>
+    </div>
+</body>
+</html>

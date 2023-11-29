@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>卦象</title>
+    <style>
+        .gua-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .gua {
+            margin: 0 10px;
+        }
+
+        .line {
+            height: 20px;
+            background-color: black;
+            margin: 5px 0;
+            width:200px;
+        }
+        
+        .line-changed {
+            background-color: red;
+        }
+
+
+       /* 定义阴爻的样式 */
+       .yin {
+            height: 20px;
+            margin: 5px 0;
+            width: 200px;
+            display: flex; /* 使用弹性布局 */
+            justify-content: space-between; /* 使子元素之间均匀分布 */
+        }
+
+        .yin-changed {
+            /* 如果你想有一个特殊的样式适用于整个变爻的阴爻可以在这里定义 */
+        }
+
+
+        /* 阴爻中间的白色部分 */
+        .yin-center {
+            height: 20px;
+            background-color: white; /* 中间部分是白色 */
+            width: 40px; /* 宽度可以根据需要调整 */
+        }
+        .yin-center-changed {
+            background-color: white; /* 中间部分保持白色不变 */
+        }
+
+        /* 阴爻两边的黑色部分 */
+        .yin-left, .yin-right {
+            height: 20px;
+            background-color: black; /* 两边是黑色 */
+            width: 80px; /* 宽度可以根据需要调整 */
+        }
+
+        .yin-left-changed, .yin-right-changed {
+            background-color: red;
+            height: 20px;
+            width: 80px; /* 宽度可以根据需要调整 */
+        }
+        .changed {
+            border: 1px solid red;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="gua-container">
+        <div class="gua">
+            <h2>本卦</h2>
+            {{ range $index, $value := .BenGua }}
+                <div class="{{ if eq $value "yang" }}line{{ else }}yin{{ end }} {{ if index $.BianIndexes $index }}{{ if eq $value "yang" }}line-changed{{ else }}yin-changed{{ end }}{{ end }}">
+                    {{ if eq $value "yin" }}
+                        <div class="{{ if index $.BianIndexes $index }}yin-left-changed{{ else }}yin-left{{ end }}"></div>
+                        <div class="yin-center"></div> <!-- 中间部分保持白色不变 -->
+                        <div class="{{ if index $.BianIndexes $index }}yin-right-changed{{ else }}yin-right{{ end }}"></div>
+                    {{ end }}
+                </div>
+            {{ end }}
+        </div>
+
+        <div class="gua">
+            <h2>变卦</h2>
+            {{ range $value := .BianGua }}
+            <div class="{{ if eq $value "yang" }}line{{ else }}yin{{ end }}">
+                {{ if eq $value "yin" }}
+                    <div class="yin-left"></div>
+                    <div class="yin-center"></div>
+                    <div class="yin-right"></div>
+                {{ end }}
+            </div>
+            {{ end }}
+        </div>
+    </div>
+        <div style="text-align:center;">
+            <a href="/">返回</a>
+        </div>
+</body>
+</html>
