@@ -17,8 +17,8 @@ COPY . .
 # 编译应用
 RUN go build -o main .
 
-# 暴露 8080 端口
-EXPOSE 8080
+# 暴露 5050 端口
+EXPOSE 5050
 
 # 启动应用
 CMD ["./main"]

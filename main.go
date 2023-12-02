@@ -14,5 +14,5 @@ func main() {
 
 	r.LoadHTMLGlob("templates/*")
 
-	r.Run(":8082")
+	r.Run(":5050")
 }
