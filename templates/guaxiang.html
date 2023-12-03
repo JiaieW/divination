@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- body {
-        background-image: url('static/img/background.png'); /* 使用本地图片作为背景 */
-        background-size: cover; /* 确保图片完全覆盖整个页面 */
-        background-repeat: no-repeat; /* 防止背景图片重复 */
-        background-attachment: fixed; /* 使背景图片固定，不随滚动条移动 */
-    } -->
+   
     <title>卦象</title>
     <style>
+         body {
+            background-image: url('static/img/background.png'); /* 使用本地图片作为背景 */
+            background-size: cover; /* 确保图片完全覆盖整个页面 */
+            background-repeat: no-repeat; /* 防止背景图片重复 */
+            background-attachment: fixed; /* 使背景图片固定，不随滚动条移动 */
+        }
         .gua-container {
             display: flex;
             justify-content: center;
@@ -18,26 +19,28 @@
         }
 
         .gua {
-            margin: 0 10px;
+            margin: 0 200px;
+            position: relative;
+            bottom: -30px;
         }
 
         .line {
-            height: 20px;
+            height: 30px;
             background-color: black;
-            margin: 5px 0;
-            width:200px;
+            margin: 40px 0;
+            width:400px;
         }
         
         .line-changed {
-            background-color: red;
+            background-color: rgb(222, 24, 24);
         }
 
 
        /* 定义阴爻的样式 */
        .yin {
-            height: 20px;
-            margin: 5px 0;
-            width: 200px;
+            height: 30px;
+            margin: 40px 0;
+            width: 400px;
             display: flex; /* 使用弹性布局 */
             justify-content: space-between; /* 使子元素之间均匀分布 */
         }
@@ -49,38 +52,54 @@
 
         /* 阴爻中间的白色部分 */
         .yin-center {
-            height: 20px;
-            background-color: white; /* 中间部分是白色 */
-            width: 40px; /* 宽度可以根据需要调整 */
+            height: 30px;
+            background-color: transparent; /* 将白色背景改为透明 */
+            width: 80px; /* 宽度可以根据需要调整 */
         }
         .yin-center-changed {
-            background-color: white; /* 中间部分保持白色不变 */
+            background-color: transparent; /* 将白色背景改为透明 */
         }
 
         /* 阴爻两边的黑色部分 */
         .yin-left, .yin-right {
-            height: 20px;
+            height: 30px;
             background-color: black; /* 两边是黑色 */
-            width: 80px; /* 宽度可以根据需要调整 */
+            width: 160px; /* 宽度可以根据需要调整 */
         }
 
         .yin-left-changed, .yin-right-changed {
-            background-color: rgb(209, 68, 68);
-            height: 20px;
-            width: 80px; /* 宽度可以根据需要调整 */
+            background-color: rgb(222, 24, 24);
+            height: 30px;
+            width: 160px; /* 宽度可以根据需要调整 */
         }
         .changed {
-            border: 1px solid rgb(209, 68, 68);
+            border: 1px solid rgb(222, 24, 24);
         }
 
+        
+        .gua-info {
+            text-align: center; /* 文本居中 */
+            margin: 20px 0; /* 上下边距 */
+            font-weight: bold; /* 字体加粗 */
+        }
     </style>
 </head>
 <body>
     <div class="gua-container">
         <div class="gua">
             <h2>本卦</h2>
+            <div class="gua-info">
+                <span>{{ .BenGuaInfo.Location }} - {{ .BenGuaInfo.Alias }}</span>
+            </div>
+            <div class="gua-info">
+                <span>{{ .BenGuaInfo.Form }}</span>
+            </div>
+            <div class="gua-info">
+                <span>{{ .BenGuaInfo.Guaci }}</span>
+            </div>
             {{ range $index, $value := .BenGua }}
-                <div class="{{ if eq $value "yang" }}line{{ else }}yin{{ end }} {{ if index $.BianIndexes $index }}{{ if eq $value "yang" }}line-changed{{ else }}yin-changed{{ end }}{{ end }}">
+                <div class="{{ if eq $value "yang" }}line{{ else }}yin{{ end }} 
+                {{ if index $.BianIndexes $index }}{{ if eq $value "yang" }}line-changed{{ else }}yin-changed{{ end }}{{ end }}">
                     {{ if eq $value "yin" }}
                         <div class="{{ if index $.BianIndexes $index }}yin-left-changed{{ else }}yin-left{{ end }}"></div>
                         <div class="yin-center"></div> <!-- 中间部分保持白色不变 -->
@@ -92,6 +111,15 @@
 
         <div class="gua">
             <h2>变卦</h2>
+            <div class="gua-info">
+                <span>{{ .BianGuaInfo.Location }} - {{ .BianGuaInfo.Alias }}</span>
+            </div>
+            <div class="gua-info">
+                <span>{{ .BianGuaInfo.Form }}</span>
+            </div>
+            <div class="gua-info">
+                <span>{{ .BianGuaInfo.Guaci }}</span>
+            </div>
             {{ range $value := .BianGua }}
             <div class="{{ if eq $value "yang" }}line{{ else }}yin{{ end }}">
                 {{ if eq $value "yin" }}

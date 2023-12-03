@@ -6,7 +6,6 @@ import (
 	"divination/database"
 	"divination/models"
 	"fmt"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -36,8 +35,8 @@ type GuaXiang struct {
 func QiGua(c *gin.Context) {
 
 	data := GuaXiang{
-		BenGua:      make([]string, 7),
-		BianGua:     make([]string, 7),
+		BenGua:      []string{},
+		BianGua:     []string{},
 		BianIndexes: make(map[int]bool),
 	}
 
@@ -71,25 +70,28 @@ func QiGua(c *gin.Context) {
 		bianGuaCode = append(bianGuaCode, yao)
 	}
 	//
-	for i := 0; i < 6; i++ {
-		if benGuaCode[5-i] == 0 {
-			data.BenGua[6-i] = "yin"
+	for i := 5; i >= 0; i-- {
+		if benGuaCode[i] == 0 {
+			data.BenGua = append(data.BenGua, "yin")
+
 		} else {
-			data.BenGua[6-i] = "yang"
+			data.BenGua = append(data.BenGua, "yang")
+
 		}
 	}
-	for i := 0; i < 6; i++ {
-		if bianGuaCode[5-i] == 0 {
-			data.BianGua[6-i] = "yin"
+	for i := 5; i >= 0; i-- {
+		if bianGuaCode[i] == 0 {
+			data.BianGua = append(data.BianGua, "yin")
+
 		} else {
-			data.BianGua[6-i] = "yang"
+			data.BianGua = append(data.BianGua, "yang")
 		}
-	}
-	for _, index := range bianYaos {
-		data.BianIndexes[index] = true
 	}
 
-	//c.HTML(200, "guaxiang.html", data)
+	for _, index := range bianYaos {
+		data.BianIndexes[6-index] = true
+	}
+
 	benGuaCodeStr, bianGuaCodeStr := util.ArrayToString(benGuaCode), util.ArrayToString(bianGuaCode)
 
 	bengua, biangua := models.Gua64{}, models.Gua64{}
@@ -136,6 +138,6 @@ func QiGua(c *gin.Context) {
 		data.Orcale.Master = data.BianGuaInfo.Guaci
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": data})
-	//c.HTML(200, "guaxiang.html", data)
+	//c.JSON(http.StatusOK, gin.H{"data": data})
+	c.HTML(200, "guaxiang.html", data)
 }
