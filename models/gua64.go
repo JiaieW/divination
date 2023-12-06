@@ -10,8 +10,8 @@ type Gua64 struct {
 	Guaci        string `json:"guaci"`
 	GuaciFanyi   string `json:"guaci_fanyi"`
 	GuaciExplain string `json:"guaci_explain"`
-	Yong         string `json:"yong"`
-	Zonglun      string `json:"zonglun"`
+	//Yong         string `json:"yong"`
+	//Zonglun      string `json:"zonglun"`
 
-	Yaos []Yao386 `gorm:"-"`
+	Yaos []*Yao386 `gorm:"-"`
 }

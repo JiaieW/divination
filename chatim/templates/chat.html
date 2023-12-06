@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat with GPT</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        #chat-box {
+            width: 300px;
+            height: 400px;
+            border: 1px solid #ddd;
+            background-color: white;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        #chat {
+            height: 90%;
+            overflow-y: auto;
+        }
+        #message-input {
+            width: 70%;
+            padding: 5px;
+            margin-right: 5px;
+        }
+        button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        function toggleChat() {
+            var chatBox = document.getElementById("chat-box");
+            var chatButton = document.getElementById("chat-button");
+            var isChatBoxVisible = chatBox.style.display === "block";
+
+            chatBox.style.display = isChatBoxVisible ? "none" : "block";
+            chatButton.style.display = isChatBoxVisible ? "block" : "none";
+        }
+
+        function sendMessage() {
+            var message = document.getElementById("message-input").value;
+            if (message == "") {
+                return 
+            }
+            document.getElementById("message-input").value = "";
+
+            // 显示用户消息
+            var chat = document.getElementById("chat");
+            var userMessage = document.createElement("div");
+            userMessage.textContent = "You: " + message;
+            chat.appendChild(userMessage);
+
+            // 发送消息到服务器并获取回复
+            fetch('/message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                var reply = document.createElement("div");
+                reply.textContent = "GPT: " + data.reply;
+                chat.appendChild(reply);
+            });
+        }
+    </script>
+</head>
+<body>
+    <button id="chat-button" onclick="toggleChat()">Chat with GPT</button>
+    <div id="chat-box" style="display: none;">
+        <div id="chat"></div>
+        <div>
+            <input type="text" id="message-input">
+            <button onclick="sendMessage()">发送</button>
+        </div>
+    </div>
+</body>
+</html>

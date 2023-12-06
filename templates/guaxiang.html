@@ -27,7 +27,7 @@
         .line {
             height: 30px;
             background-color: black;
-            margin: 40px 0;
+            margin: 10px 0;
             width:400px;
         }
         
@@ -39,7 +39,7 @@
        /* 定义阴爻的样式 */
        .yin {
             height: 30px;
-            margin: 40px 0;
+            margin: 10px 0;
             width: 400px;
             display: flex; /* 使用弹性布局 */
             justify-content: space-between; /* 使子元素之间均匀分布 */
@@ -82,6 +82,22 @@
             margin: 20px 0; /* 上下边距 */
             font-weight: bold; /* 字体加粗 */
         }
+
+        .oracle-container {
+            text-align: center;
+            margin: 20px 0;
+            width: 80%; /* 调整为所需的百分比宽度 */
+            max-width: 800px; /* 可以设置一个最大宽度，避免在大屏幕上过于宽敞 */
+            margin-left: auto; /* 这两行确保元素在页面中居中 */
+            margin-right: auto;
+        }
+
+        .oracle {
+            /* 添加必要的样式，比如内边距、字体大小、颜色等 */
+            padding: 10px;
+            color: red; 
+            /* 其他样式 */
+        }
     </style>
 </head>
 <body>
@@ -97,18 +113,21 @@
             <div class="gua-info">
                 <span>{{ .BenGuaInfo.Guaci }}</span>
             </div>
-            {{ range $index, $value := .BenGua }}
-                <div class="{{ if eq $value "yang" }}line{{ else }}yin{{ end }} 
-                {{ if index $.BianIndexes $index }}{{ if eq $value "yang" }}line-changed{{ else }}yin-changed{{ end }}{{ end }}">
-                    {{ if eq $value "yin" }}
+
+            {{ range $index, $yao := .BenGuaInfo.Yaos }}
+                <div class="{{ if eq $yao.YaoType "yang" }}line{{ else }}yin{{ end }} 
+                {{ if index $.BianIndexes $index }}{{ if eq $yao.YaoType "yang" }}line-changed{{ else }}yin-changed{{ end }}{{ end }}">
+                    {{ if eq $yao.YaoType "yin" }}
                         <div class="{{ if index $.BianIndexes $index }}yin-left-changed{{ else }}yin-left{{ end }}"></div>
                         <div class="yin-center"></div> <!-- 中间部分保持白色不变 -->
                         <div class="{{ if index $.BianIndexes $index }}yin-right-changed{{ else }}yin-right{{ end }}"></div>
                     {{ end }}
                 </div>
+                <div class="yao-text">{{ $yao.YaoCi }}</div>
             {{ end }}
         </div>
 
+       
         <div class="gua">
             <h2>变卦</h2>
             <div class="gua-info">
@@ -120,17 +139,28 @@
             <div class="gua-info">
                 <span>{{ .BianGuaInfo.Guaci }}</span>
             </div>
-            {{ range $value := .BianGua }}
-            <div class="{{ if eq $value "yang" }}line{{ else }}yin{{ end }}">
-                {{ if eq $value "yin" }}
+            {{ range $yao := .BianGuaInfo.Yaos }}
+            <div class="{{ if eq $yao.YaoType "yang" }}line{{ else }}yin{{ end }}">
+                {{ if eq $yao.YaoType "yin" }}
                     <div class="yin-left"></div>
                     <div class="yin-center"></div>
                     <div class="yin-right"></div>
                 {{ end }}
             </div>
+            <div class="yao-text">{{ $yao.YaoCi }}</div>
             {{ end }}
         </div>
     </div>
+    <div class="oracle-container">
+        <div class="oracle">
+            <h5>占卜结果</h5>
+            <p >{{ .Orcale.Master }}</p>
+            <p>{{ .Orcale.MasterExplain }}</p>
+            <p >{{ .Orcale.Slave }}</p>
+            <p>{{ .Orcale.SlaveExplain }}</p>
+        </div>
+    </div>
+
         <div style="text-align:center;">
             <a href="/">返回</a>
         </div>

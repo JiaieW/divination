@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"bytes"
 	"divination/controllers/util"
 	"divination/database"
 	"divination/models"
@@ -95,12 +94,20 @@ func QiGua(c *gin.Context) {
 	benGuaCodeStr, bianGuaCodeStr := util.ArrayToString(benGuaCode), util.ArrayToString(bianGuaCode)
 
 	bengua, biangua := models.Gua64{}, models.Gua64{}
-	benguaDetail, bianguaDetail := []models.Yao386{}, []models.Yao386{}
+	benguaDetail, bianguaDetail := []*models.Yao386{}, []*models.Yao386{}
 	db.Where(models.Gua64{Code: benGuaCodeStr}).First(&bengua)
 	db.Where(models.Gua64{Code: bianGuaCodeStr}).First(&biangua)
 	data.BenGuaInfo, data.BianGuaInfo = bengua, biangua
-	db.Where(models.Yao386{GuaId: bengua.Id}).Find(&benguaDetail)
-	db.Where(models.Yao386{GuaId: biangua.Id}).Find(&bianguaDetail)
+	db.Where(models.Yao386{GuaId: bengua.Id}).Order("yao_pos desc").Find(&benguaDetail)
+	db.Where(models.Yao386{GuaId: biangua.Id}).Order("yao_pos desc").Find(&bianguaDetail)
+	for i, v := range benguaDetail {
+		v.YaoType = data.BenGua[i]
+		fmt.Println(v.YaoType)
+	}
+	for i, v := range bianguaDetail {
+		v.YaoType = data.BianGua[i]
+		fmt.Println(v.YaoType)
+	}
 	data.BenGuaInfo.Yaos = benguaDetail
 	data.BianGuaInfo.Yaos = bianguaDetail
 
@@ -108,34 +115,48 @@ func QiGua(c *gin.Context) {
 	switch len(bianYaos) {
 	case 0: //本卦卦辞
 		data.Orcale.Master = data.BenGuaInfo.Guaci
+		data.Orcale.MasterExplain = data.BenGuaInfo.GuaciFanyi
 	case 1: //本卦变爻
-		data.Orcale.Master = data.BenGuaInfo.Yaos[bianYaos[0]-1].YaoTrans
+		data.Orcale.Master = data.BenGuaInfo.Yaos[5-(bianYaos[0]-1)].YaoCi
+		data.Orcale.MasterExplain = data.BenGuaInfo.Yaos[5-(bianYaos[0]-1)].YaoTrans
 
 	case 2: //如果卦里有两个爻发生变动，那就用本卦里这两个变爻的占辞来判断吉凶，并以位置靠上的那一个变爻的占辞为主
-		data.Orcale.Master = data.BenGuaInfo.Yaos[bianYaos[1]-1].YaoTrans
-		data.Orcale.Slave = data.BenGuaInfo.Yaos[bianYaos[0]-1].YaoTrans
+		data.Orcale.Master = data.BenGuaInfo.Yaos[5-(bianYaos[1]-1)].YaoCi
+		data.Orcale.MasterExplain = data.BenGuaInfo.Yaos[5-(bianYaos[1]-1)].YaoTrans
+		data.Orcale.Slave = data.BenGuaInfo.Yaos[5-(bianYaos[0]-1)].YaoCi
+		data.Orcale.SlaveExplain = data.BenGuaInfo.Yaos[5-(bianYaos[0]-1)].YaoTrans
 	case 3: //本卦变卦卦辞 ，以本卦卦辞为主
 		data.Orcale.Master = data.BenGuaInfo.Guaci
+		data.Orcale.MasterExplain = data.BenGuaInfo.GuaciFanyi
 		data.Orcale.Slave = data.BianGuaInfo.Guaci
+		data.Orcale.SlaveExplain = data.BianGuaInfo.GuaciFanyi
 	case 4: //变卦两个不变爻
-		str := bytes.Buffer{}
-
+		flag := 0
 		for i := 1; i < 7; i++ {
 			res := util.IssetInSlice(i, bianYaos)
-			fmt.Println("变卦不变爻---------------", res)
 			if res != 0 {
-				str.WriteString(data.BianGuaInfo.Yaos[res-1].YaoTrans) // todo
+				if flag == 0 {
+					data.Orcale.Slave = data.BianGuaInfo.Yaos[5-(res-1)].YaoCi
+					data.Orcale.SlaveExplain = data.BianGuaInfo.Yaos[5-(res-1)].YaoTrans
+
+					flag++
+				}
+				if flag == 1 {
+					data.Orcale.Master = data.BianGuaInfo.Yaos[5-(res-1)].YaoCi
+					data.Orcale.MasterExplain = data.BianGuaInfo.Yaos[5-(res-1)].YaoTrans
+				}
 			}
 		}
-		data.Orcale.Master = str.String()
 	case 5: //变卦的一个不变爻
 		var n int
 		for _, i := range bianYaos {
 			n += i
 		}
-		data.Orcale.Master = data.BianGuaInfo.Yaos[21-n-1].YaoTrans
+		data.Orcale.Master = data.BianGuaInfo.Yaos[5-(21-n-1)].YaoCi
+		data.Orcale.MasterExplain = data.BianGuaInfo.Yaos[5-(21-n-1)].YaoTrans
 	case 6: // 变卦卦辞
 		data.Orcale.Master = data.BianGuaInfo.Guaci
+		data.Orcale.MasterExplain = data.BianGuaInfo.GuaciFanyi
 	}
 
 	//c.JSON(http.StatusOK, gin.H{"data": data})
