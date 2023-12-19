@@ -120,3 +120,25 @@ body {
 #returnButton:hover {
     background-color: #45a049; /* 悬停时背景色变化 */
 }
+
+/* 媒体查询 - 针对手机屏幕调整样式 */
+@media screen and (max-width: 600px) {
+    .gua-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .ben_gua, .bian_gua {
+        margin: 0 10px; /* 减小两侧的间距 */
+        bottom: 0;
+    }
+    .line, .yin {
+        width: 90%; /* 减小爻的宽度 */
+    }
+    .yin-left, .yin-right, .yin-center {
+        width: calc(30% - 10px); /* 调整阴爻部分的宽度 */
+    }
+    .oracle-container, .oracle {
+        width: 100%; /* 在移动设备上占满整个屏幕宽度 */
+        max-width: none;
+    }
+}
