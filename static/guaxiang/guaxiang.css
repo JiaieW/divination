@@ -1,0 +1,122 @@
+body {
+    /*background-image: url('static/img/background.png');  使用本地图片作为背景 */
+    background-size: cover; /* 确保图片完全覆盖整个页面 */
+    background-repeat: no-repeat; /* 防止背景图片重复 */
+    background-attachment: fixed; /* 使背景图片固定，不随滚动条移动 */
+}
+
+
+.gua-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.ben_gua {
+    margin: 0 200px;
+    position: relative;
+    /* bottom: -30px; */
+}
+.bian_gua {
+    margin: 0 200px;
+    position: relative;
+    /* bottom: -30px; */
+}
+.line {
+    height: 30px;
+    background-color: black;
+    margin: 10px 0;
+    width:400px;
+}
+
+.line-changed {
+    background-color: rgb(222, 24, 24);
+}
+
+
+/* 定义阴爻的样式 */
+.yin {
+    height: 30px;
+    margin: 10px 0;
+    width: 400px;
+    display: flex; /* 使用弹性布局 */
+    justify-content: space-between; /* 使子元素之间均匀分布 */
+}
+
+.yin-changed {
+    /* 如果你想有一个特殊的样式适用于整个变爻的阴爻可以在这里定义 */
+}
+
+
+/* 阴爻中间的白色部分 */
+.yin-center {
+    height: 30px;
+    background-color: transparent; /* 将白色背景改为透明 */
+    width: 80px; /* 宽度可以根据需要调整 */
+}
+.yin-center-changed {
+    background-color: transparent; /* 将白色背景改为透明 */
+}
+
+/* 阴爻两边的黑色部分 */
+.yin-left, .yin-right {
+    height: 30px;
+    background-color: black; /* 两边是黑色 */
+    width: 160px; /* 宽度可以根据需要调整 */
+}
+
+.yin-left-changed, .yin-right-changed {
+    background-color: rgb(222, 24, 24);
+    height: 30px;
+    width: 160px; /* 宽度可以根据需要调整 */
+}
+.changed {
+    border: 1px solid rgb(222, 24, 24);
+}
+
+.ben_gua h2 {
+    text-align: center; /* 文本居中 */
+    /* 可以根据需要添加其他样式，例如字体大小、颜色等 */
+}
+.bian_gua h2 {
+    text-align: center; /* 文本居中 */
+    /* 可以根据需要添加其他样式，例如字体大小、颜色等 */
+}
+
+.gua-info {
+    text-align: center; /* 文本居中 */
+    margin: 20px 0; /* 上下边距 */
+    font-weight: bold; /* 字体加粗 */
+}
+
+.oracle-container {
+    text-align: center;
+    margin: 20px 0;
+    width: 80%; /* 调整为所需的百分比宽度 */
+    max-width: 800px; /* 可以设置一个最大宽度，避免在大屏幕上过于宽敞 */
+    margin-left: auto; /* 这两行确保元素在页面中居中 */
+    margin-right: auto;
+}
+
+.oracle {
+    /* 添加必要的样式，比如内边距、字体大小、颜色等 */
+    padding: 10px;
+    color: red; 
+    /* 其他样式 */
+}
+
+#returnButton {
+    display: inline-block; /* 行内块元素 */
+    padding: 10px 20px; /* 内边距 */
+    background-color: #4CAF50; /* 绿色背景 */
+    color: white; /* 白色文本 */
+    text-decoration: none; /* 去除下划线 */
+    font-size: 16px; /* 字体大小 */
+    border-radius: 5px; /* 圆角边框 */
+    transition: background-color 0.3s; /* 背景色过渡动画 */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* 阴影效果 */
+}
+
+#returnButton:hover {
+    background-color: #45a049; /* 悬停时背景色变化 */
+}

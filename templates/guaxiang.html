@@ -5,104 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    
     <title>卦象</title>
-    <style>
-                 body {
-            background-image: url('static/img/background.png'); /* 使用本地图片作为背景 */
-            background-size: cover; /* 确保图片完全覆盖整个页面 */
-            background-repeat: no-repeat; /* 防止背景图片重复 */
-            background-attachment: fixed; /* 使背景图片固定，不随滚动条移动 */
-                    }
-        .gua-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .gua {
-            margin: 0 200px;
-            position: relative;
-            bottom: -30px;
-        }
-
-        .line {
-            height: 30px;
-            background-color: black;
-            margin: 10px 0;
-            width:400px;
-        }
-        
-        .line-changed {
-            background-color: rgb(222, 24, 24);
-        }
-
-
-       /* 定义阴爻的样式 */
-       .yin {
-            height: 30px;
-            margin: 10px 0;
-            width: 400px;
-            display: flex; /* 使用弹性布局 */
-            justify-content: space-between; /* 使子元素之间均匀分布 */
-        }
-
-        .yin-changed {
-            /* 如果你想有一个特殊的样式适用于整个变爻的阴爻可以在这里定义 */
-        }
-
-
-        /* 阴爻中间的白色部分 */
-        .yin-center {
-            height: 30px;
-            background-color: transparent; /* 将白色背景改为透明 */
-            width: 80px; /* 宽度可以根据需要调整 */
-        }
-        .yin-center-changed {
-            background-color: transparent; /* 将白色背景改为透明 */
-        }
-
-        /* 阴爻两边的黑色部分 */
-        .yin-left, .yin-right {
-            height: 30px;
-            background-color: black; /* 两边是黑色 */
-            width: 160px; /* 宽度可以根据需要调整 */
-        }
-
-        .yin-left-changed, .yin-right-changed {
-            background-color: rgb(222, 24, 24);
-            height: 30px;
-            width: 160px; /* 宽度可以根据需要调整 */
-        }
-        .changed {
-            border: 1px solid rgb(222, 24, 24);
-        }
-
-        
-        .gua-info {
-            text-align: center; /* 文本居中 */
-            margin: 20px 0; /* 上下边距 */
-            font-weight: bold; /* 字体加粗 */
-        }
-
-        .oracle-container {
-            text-align: center;
-            margin: 20px 0;
-            width: 80%; /* 调整为所需的百分比宽度 */
-            max-width: 800px; /* 可以设置一个最大宽度，避免在大屏幕上过于宽敞 */
-            margin-left: auto; /* 这两行确保元素在页面中居中 */
-            margin-right: auto;
-        }
-
-        .oracle {
-            /* 添加必要的样式，比如内边距、字体大小、颜色等 */
-            padding: 10px;
-            color: red; 
-            /* 其他样式 */
-        }
-    </style>
+    <link href="static/guaxiang/guaxiang.css" rel="stylesheet">
     </head>
 <body>
     <div class="gua-container">
-        <div class="gua">
+        <div class="ben_gua">
             <h2>本卦</h2>
             <div class="gua-info">
                 <span>{{ .BenGuaInfo.Location }} - {{ .BenGuaInfo.Alias }}</span>
@@ -128,7 +35,7 @@
         </div>
 
        
-        <div class="gua">
+        <div class="bian_gua">
             <h2>变卦</h2>
             <div class="gua-info">
                 <span>{{ .BianGuaInfo.Location }} - {{ .BianGuaInfo.Alias }}</span>
@@ -161,8 +68,8 @@
         </div>
     </div>
     
-        <div style="text-align:center;">
-            <a href="/">返回</a>
-        </div>
+    <div style="text-align:center;">
+        <a href="/" id="returnButton">返回</a>
+    </div>
 </body>
 </html>

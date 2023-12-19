@@ -20,26 +20,30 @@
     }
   }
 
-  /**
-   * Countdown timer
-   */
-
-  let countdown = select('.countdown');
-
-  const countDownDate = function() {
-    let timeleft = new Date(countdown.getAttribute('data-count')).getTime() - new Date().getTime();
-
-    let weeks = Math.floor(timeleft / (1000 * 60 * 60 * 24 * 7));
-    let days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
-    let hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    let minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
-    let seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
-
-    let output = countdown.getAttribute('data-template');
-    output = output.replace('%w', weeks).replace('%d', days).replace('%h', hours).replace('%m', minutes).replace('%s', seconds);
-    countdown.innerHTML = output;
-  }
-  countDownDate();
-  setInterval(countDownDate, 1000);
-
 })()
+
+function updateCurrentTime() {
+  var currentTime = new Date();
+  // 将当前时间转换为东八区时间
+  var offset = 8; // UTC+8
+  var utc = currentTime.getTime() + currentTime.getTimezoneOffset() * 60000;
+  var localTime = new Date(utc + (3600000 * offset));
+  
+  // 格式化时间显示
+  var formattedTime = localTime.toLocaleString('zh-CN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+});
+  document.getElementById('current-time').innerHTML = formattedTime;
+}
+
+// 每秒更新时间
+setInterval(updateCurrentTime, 1000);
+
+// 初始化显示
+updateCurrentTime();
