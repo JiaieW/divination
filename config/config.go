@@ -14,6 +14,16 @@ type Config struct {
 		Password string
 		Name     string
 	}
+	Qianwen struct {
+		ApiUrl string
+		ApiKey string
+	} `json:"qianwen"`
+	Xinghuo struct {
+		HostUrl   string `json:"hostUrl"`
+		Appid     string `json:"appid"`
+		ApiSecret string `json:"apiSecret"`
+		ApiKey    string `json:"apiKey"`
+	} `json:"xinghuo"`
 }
 
 var (

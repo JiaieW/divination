@@ -1,6 +1,7 @@
 package main
 
 import (
+	"divination/llm"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -16,7 +17,7 @@ func main() {
 
 	// 加载 HTML 模板
 	r.LoadHTMLGlob("templates/*")
-
+	r.Static("/static", "./static")
 	// 处理前端发送的消息
 	r.POST("/message", func(c *gin.Context) {
 		var req struct {
@@ -26,9 +27,21 @@ func main() {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-
+		llmM := llm.NewLLM()
+		anwser := ""
+		for name, m := range llmM {
+			m.Connect()
+			m.SendRequest(req.Message)
+			anwser += name + " : " + m.GetAnswer()
+			// if anwser != "" {
+			// 	break
+			// }
+		}
+		if anwser == "" {
+			anwser = "请稍后"
+		}
 		// 这里我们模拟 GPT 的回复
-		reply := "模拟回复: " + req.Message
+		reply := "模拟回复: " + anwser
 
 		c.JSON(http.StatusOK, gin.H{"reply": reply})
 	})

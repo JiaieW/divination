@@ -1,1 +1,4 @@
 .vscode/
+config/config.toml
+llm/xinghuo/main/*
+llm/qianwen/main/*

@@ -7,29 +7,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
     chatToggle.addEventListener('click', () => {
         if (chatBox.style.display === "none") {
             chatBox.style.display = "block";
-            const benGuaDiv = document.querySelector('.ben_gua');
-            const bianGuaDiv = document.querySelector('.bian_gua');
-            console.log(benGuaDiv)
-            // 提取本卦和变卦的数据
-            const guaInfo = {
-                benGua: {
-                    location: benGuaDiv.getAttribute('data-location'),
-                    alias: benGuaDiv.getAttribute('data-alias'),
-                    form: benGuaDiv.getAttribute('data-form'),
-                    guaci: benGuaDiv.getAttribute('data-guaci'),
-                    // 这里添加其他需要的本卦信息
-                },
-                bianGua: {
-                    location: bianGuaDiv.getAttribute('data-location'),
-                    alias: bianGuaDiv.getAttribute('data-alias'),
-                    form: bianGuaDiv.getAttribute('data-form'),
-                    guaci: bianGuaDiv.getAttribute('data-guaci'),
-                    // 这里添加其他需要的变卦信息
-                },
-                // 假设你有一个变化索引的数组，你也可以将其包括进来
-                // bianIndexes: 你的变化索引数组
-            };
-            console.log(guaInfo)
             // 发送初始消息
             sendInitialMessage('你好呀');
         } else {
@@ -82,7 +59,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function sendInitialMessage(message) {
-        addMessageToChat('您', message);
+        addMessageToChat('You', message);
         sendButton.disabled = true;
 
         fetch('/message', {
@@ -92,7 +69,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         })
         .then(response => response.json())
         .then(data => {
-            addMessageToChat('AI周易大师', data.reply);
+            addMessageToChat('GPT', data.reply);
             sendButton.disabled = false;
         })
         .catch(error => {

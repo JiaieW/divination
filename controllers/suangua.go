@@ -3,8 +3,10 @@ package controllers
 import (
 	"divination/controllers/util"
 	"divination/database"
+	"divination/llm"
 	"divination/models"
 	"fmt"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -29,6 +31,33 @@ type GuaXiang struct {
 	BenGuaInfo  models.Gua64 `json:"bengua_info"`
 	BianGuaInfo models.Gua64 `json:"biangua_info"`
 	Orcale      Orcale       `json:"orcale"`
+}
+
+func Message(c *gin.Context) {
+	var req struct {
+		Message string `json:"message"`
+	}
+	if err := c.BindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	llmM := llm.NewLLM()
+	anwser := ""
+	for name, m := range llmM {
+		m.Connect()
+		m.SendRequest(req.Message)
+		anwser += name + " : " + m.GetAnswer()
+		// if anwser != "" {
+		// 	break
+		// }
+	}
+	if anwser == "" {
+		anwser = "请稍后"
+	}
+	// 这里我们模拟 GPT 的回复
+	reply := anwser
+
+	c.JSON(http.StatusOK, gin.H{"reply": reply})
 }
 
 func QiGua(c *gin.Context) {

@@ -6,6 +6,7 @@
    
     <title>卦象</title>
     <link href="static/guaxiang/guaxiang.css" rel="stylesheet">
+    <script src="static/guaxiang/guaxiang.js" defer></script>
     </head>
 <body>
     <div class="gua-container">
@@ -22,15 +23,14 @@
             </div>
 
             {{ range $index, $yao := .BenGuaInfo.Yaos }}
-                <div class="{{ if eq $yao.YaoType "yang" }}line{{ else }}yin{{ end }} 
-                {{ if index $.BianIndexes $index }}{{ if eq $yao.YaoType "yang" }}line-changed{{ else }}yin-changed{{ end }}{{ end }}">
+                <div class="{{ if index $.BianIndexes $index }}{{ $yao.YaoType }}-changed {{else}} {{ $yao.YaoType }} {{ end }}">
                     {{ if eq $yao.YaoType "yin" }}
                         <div class="{{ if index $.BianIndexes $index }}yin-left-changed{{ else }}yin-left{{ end }}"></div>
-                        <div class="yin-center"></div> <!-- 中间部分保持白色不变 -->
+                        <div class="yin-center"></div> <!-- 即使变化，中间部分也不变 -->
                         <div class="{{ if index $.BianIndexes $index }}yin-right-changed{{ else }}yin-right{{ end }}"></div>
                     {{ end }}
                 </div>
-                <div class="yao-text">{{ $yao.YaoCi }}</div>
+            <div class="yao-text">{{ $yao.YaoCi }}</div>
             {{ end }}
         </div>
 
@@ -47,7 +47,7 @@
                 <span>{{ .BianGuaInfo.Guaci }}</span>
             </div>
             {{ range $yao := .BianGuaInfo.Yaos }}
-            <div class="{{ if eq $yao.YaoType "yang" }}line{{ else }}yin{{ end }}">
+            <div class="{{ if eq $yao.YaoType "yang" }}yang{{ else }}yin{{ end }}">
                 {{ if eq $yao.YaoType "yin" }}
                     <div class="yin-left"></div>
                     <div class="yin-center"></div>
@@ -70,6 +70,16 @@
     
     <div style="text-align:center;">
         <a href="/" id="returnButton">返回</a>
+    </div>
+    <div id="container">
+        <button id="chat-toggle">Ai解卦</button>
+        <div id="chat-box" class="hidden">
+            <div id="chat"></div>
+            <div id="message-form">
+                <input type="text" id="message-input" placeholder="请输入您想问卦的场景，如财运、姻缘等...">
+                <button id="send-button">发送</button>
+            </div>
+        </div>
     </div>
 </body>
 </html>

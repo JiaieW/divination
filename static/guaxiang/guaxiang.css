@@ -13,38 +13,48 @@ body {
 }
 
 .ben_gua {
-    margin: 0 200px;
+    margin: 10px;
+    flex: 1; /* 本卦和变卦各占一半的宽度 */
     position: relative;
     /* bottom: -30px; */
 }
 .bian_gua {
-    margin: 0 200px;
+    margin: 10px;
+    flex: 1; /* 本卦和变卦各占一半的宽度 */
     position: relative;
     /* bottom: -30px; */
 }
-.line {
+.yang {
     height: 30px;
     background-color: black;
-    margin: 10px 0;
+    margin: 10px auto;
     width:400px;
 }
 
-.line-changed {
+.yang-changed {
+    height: 30px;
     background-color: rgb(222, 24, 24);
+    margin: 10px auto;
+    width:400px;
 }
 
 
 /* 定义阴爻的样式 */
 .yin {
     height: 30px;
-    margin: 10px 0;
+    margin: 10px auto;
     width: 400px;
-    display: flex; /* 使用弹性布局 */
-    justify-content: space-between; /* 使子元素之间均匀分布 */
+    display: flex; 
+    justify-content: space-between; 
 }
 
 .yin-changed {
     /* 如果你想有一个特殊的样式适用于整个变爻的阴爻可以在这里定义 */
+    height: 30px;
+    margin: 10px auto;
+    width: 400px;
+    display: flex; 
+    justify-content: space-between; 
 }
 
 
@@ -53,9 +63,15 @@ body {
     height: 30px;
     background-color: transparent; /* 将白色背景改为透明 */
     width: 80px; /* 宽度可以根据需要调整 */
+
+    flex: 0 0 80px; /* 不伸缩，基础宽度为80px */
 }
 .yin-center-changed {
+    height: 30px;
     background-color: transparent; /* 将白色背景改为透明 */
+    width: 80px; /* 宽度可以根据需要调整 */
+
+    
 }
 
 /* 阴爻两边的黑色部分 */
@@ -66,8 +82,8 @@ body {
 }
 
 .yin-left-changed, .yin-right-changed {
-    background-color: rgb(222, 24, 24);
     height: 30px;
+    background-color: rgb(222, 24, 24);
     width: 160px; /* 宽度可以根据需要调整 */
 }
 .changed {
@@ -87,6 +103,10 @@ body {
     text-align: center; /* 文本居中 */
     margin: 20px 0; /* 上下边距 */
     font-weight: bold; /* 字体加粗 */
+}
+
+.yao-text {
+    text-align: center; /* 文本居中 */
 }
 
 .oracle-container {
@@ -121,24 +141,105 @@ body {
     background-color: #45a049; /* 悬停时背景色变化 */
 }
 
-/* 媒体查询 - 针对手机屏幕调整样式 */
+
+#container {
+    text-align: center;
+}
+
+#chat-box {
+    width: 300px;
+    border: 1px solid #ddd;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+    display: none; /* 确保聊天框默认不显示 */
+    flex-direction: column;
+    border-radius: 8px;
+}
+
+.hidden {
+    display: none;
+}
+
+#chat {
+    height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #eaeaea;
+    border-radius: 5px;
+}
+
+#message-form {
+    display: flex;
+    justify-content: space-between;
+}
+
+#message-input {
+    flex-grow: 1;
+    padding: 5px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+#send-button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#send-button:hover {
+    background-color: #0056b3;
+}
+
+#chat-toggle {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#chat-toggle:hover {
+    background-color: #0056b3;
+}
+
+
+
 @media screen and (max-width: 600px) {
     .gua-container {
         flex-direction: column;
         align-items: center;
     }
     .ben_gua, .bian_gua {
-        margin: 0 10px; /* 减小两侧的间距 */
+        margin: 0 10px;
         bottom: 0;
     }
     .line, .yin {
-        width: 90%; /* 减小爻的宽度 */
+        width: 90%;
     }
-    .yin-left, .yin-right, .yin-center {
-        width: calc(30% - 10px); /* 调整阴爻部分的宽度 */
+    .yin-left, .yin-right, .yin-left-changed, .yin-right-changed {
+        flex: 1; /* 让两边的部分各占据剩余空间的一半 */
+        min-width: 0; /* 允许这些元素在需要时缩小 */
     }
+    .yin-center, .yin-center-changed {
+        flex: 0 0 50px; /* 中间部分保持固定宽度 */
+        max-width: 50px; /* 限制最大宽度 */
+    }
+    .yin, .yin-changed {
+        justify-content: space-around; /* 更改为space-around以在元素之间提供空间 */
+    }
+   
     .oracle-container, .oracle {
-        width: 100%; /* 在移动设备上占满整个屏幕宽度 */
+        width: 100%;
         max-width: none;
     }
 }
